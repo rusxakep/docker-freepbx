@@ -1,5 +1,5 @@
-FROM tiredofit/nodejs:10-debian-latest
-LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
+FROM rusxakep/nodejs:10-debian-latest
+LABEL maintainer="Mikhail Baykov (mike at baikov dot com)"
 
 ### Set defaults
 ENV ASTERISK_VERSION=17.5.1 \

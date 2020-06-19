@@ -1,9 +1,9 @@
-# hub.docker.com/r/tiredofit/freepbx
+# hub.docker.com/r/rusxakep/freepbx
 
-[![Build Status](https://img.shields.io/docker/cloud/build/tiredofit/freepbx.svg)](https://hub.docker.com/r/tiredofit/freepbx)
-[![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/freepbx.svg)](https://hub.docker.com/r/tiredofit/freepbx)
-[![Docker Stars](https://img.shields.io/docker/stars/tiredofit/freepbx.svg)](https://hub.docker.com/r/tiredofit/freepbx)
-[![Docker Layers](https://images.microbadger.com/badges/image/tiredofit/freepbx.svg)](https://microbadger.com/images/tiredofit/freepbx)
+[![Build Status](https://img.shields.io/docker/cloud/build/rusxakep/freepbx.svg)](https://hub.docker.com/r/rusxakep/freepbx)
+[![Docker Pulls](https://img.shields.io/docker/pulls/rusxakep/freepbx.svg)](https://hub.docker.com/r/rusxakep/freepbx)
+[![Docker Stars](https://img.shields.io/docker/stars/rusxakep/freepbx.svg)](https://hub.docker.com/r/rusxakep/freepbx)
+[![Docker Layers](https://images.microbadger.com/badges/image/rusxakep/freepbx.svg)](https://microbadger.com/images/rusxakep/freepbx)
 
 
 # Introduction
@@ -22,10 +22,10 @@ Upon starting this image it will give you a turn-key PBX system for SIP calling.
 * Option to Install [Flash Operator Panel 2](https://www.fop2.com/)
 * Customizable FOP and Admin URLs
 
-This container uses [tiredofit/debian:buster](https://hub.docker.com/r/tiredofit/debian) as a base.
+This container uses [rusxakep/debian:buster](https://hub.docker.com/r/rusxakep/debian) as a base.
         
 **If you are presently running this image when it utilized FreePBX 14 and 
-Asterisk 14 and can no longer use your image, please see [this post](https://github.com/tiredofit/docker-freepbx/issues/51)**
+Asterisk 14 and can no longer use your image, please see [this post](https://github.com/rusxakep/docker-freepbx/issues/51)**
 
 
 [Changelog](CHANGELOG.md)
@@ -33,6 +33,7 @@ Asterisk 14 and can no longer use your image, please see [this post](https://git
 # Authors
 
 - [Dave Conroy](https://github.com/tiredofit)
+- [Mikhail Baykov](https://github.com/rusxakep)
 
 # Table of Contents
 
@@ -60,11 +61,11 @@ You will also need an external MySQL/MariaDB container, although it can use an i
 
 # Installation
 
-Automated builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/freepbx) and is the recommended method of installation.
+Automated builds of the image are available on [Docker Hub](https://hub.docker.com/r/rusxakep/freepbx) and is the recommended method of installation.
 
 
 ```bash
-docker pull tiredofit/freepbx:(imagetag)
+docker pull rusxakep/freepbx:(imagetag)
 ```
 The following image tags are available:
 
@@ -110,7 +111,7 @@ put them here following the same folder structure for anything underneath the /v
 ### Environment Variables
 
 
-Along with the environment variables from the [Base image](https://hub.docker.com/r/tiredofit/debian), 
+Along with the environment variables from the [Base image](https://hub.docker.com/r/rusxakep/debian), 
 below is the complete list of available options that can be used to customize your installation.
 
 | Parameter        | Description                            |

@@ -1,4 +1,43 @@
-## 4.1.0 2020-06-19 <rusxakep@github>
+## 5.0.6 2020-08-15 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix for FOP2 not starting up
+      - Add debug statements to watson-transcription script
+      - Repair issues with watson transcription
+
+
+## 5.0.5 2020-08-14 <hobbit378@github>
+
+   ### Fixed
+      - Changed routines to limit socat to start if SMTP_HOST=localhost
+
+
+## 5.0.4 2020-08-01 <dave at tiredofit dot ca>
+
+   ### Added
+      - Asterisk 17.6.0
+      - Added capability of Voicemail transcription via IBM Watson (see /usr/sbin/watson-transcription)
+
+
+## 5.0.3 2020-07-27 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Set +x bit on 15-socat container initialization and runtime scripts
+
+
+## 5.0.2 2020-07-13 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Disable app_vooicemail_odbc and app_voicemail_imap causing problems with Voicemail working
+
+
+## 5.0.1 2020-06-20 <rusxakep@github>
+
+   ### Changed
+      - Patch for version 5.0.0
+
+## 5.0.0 2020-06-19 <rusxakep@github>
+
    ### Added
       - Asterisk 17.x support added
       - New Asterisk modules added to base image
@@ -7,43 +46,30 @@
       - USB dongle (huawei) module support added
       - MongoDB versioning support added
       - Sync build with latest base image features (00-container)
-      - 
       - FreePBX keys added to avoid spam from gnupg in logs
       - FreePBX modules added (backup, filestore, fw_langpacks)
       - Fix MariaDB starting
       - Change external MariaDB ODBC drivers to internal (debian repository)
       - Some environment variables moved to \defaults to avoid rebuild image
-      
+      - socat as SMTP proxy added for new FreePBX modules  
+      - Support for custom RTP ports added
     
-    
-    - Change FOP2 Module to FALSE by default due to flash deprecation
-    
-    
-    
-    support for custom RTP ports added
-    fix RTP_START and RTP_FINISH values in embedded database
-    
-    
-    /tmp/cron.error 'root' owner fixed
-    
-    
-    
-    socat as SMTP proxy added for new FreePBX modules
-    
-
    ### Changed
       - Cleaned up Documentation
       - ENABLE_CRON, ENABLE_SMTP now TRUE by default
       - Fix for incorrect privileges in doctrine FreePBX cache system
       - Extend featurecodes column in embedded database too
-      - fix '--x' execute bit in all asterisk modules
+      - Fix '--x' execute bit in all asterisk modules
       - Fix MongoDB starting
       - Fix bash scripts (fix 'sed'-scripts, fix 'chown'-scripts with symlinks and so on ...)
       - Fix start/stop container scripts to avoid database corruption
       - Create additional agi-bin, backup, fax and outgoing directories
       - Fix XMPP service start/stop  
-      - 
-      - 
+      - Change FOP2 Module to FALSE by default due to flash deprecation
+      - RTP_START and RTP_FINISH values in embedded database
+      - Fix issues with cron running as root
+    
+
 ## 4.0.6 2020-06-08 <dave at tiredofit dot ca>
 
    ### Added

@@ -25,7 +25,7 @@ Upon starting this image it will give you a turn-key PBX system for SIP calling.
 This container uses [rusxakep/debian:buster](https://hub.docker.com/r/rusxakep/debian) as a base.
 
 **If you are presently running this image when it utilized FreePBX 14 and
-Asterisk 14 and can no longer use your image, please see [this post](https://github.com/rusxakep/docker-freepbx/issues/51)**
+Asterisk 14 and can no longer use your image, please see [this post](https://github.com/tiredofit/docker-freepbx/issues/51)**
 
 
 [Changelog](CHANGELOG.md)

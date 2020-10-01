@@ -12,9 +12,9 @@ if var_true "$ENABLE_XMPP" ;  then
 	  mkdir -p /data/var/lib/mongodb /var/log/mongodb
   fi
 
-  service_start 08-mongodb
+  service_start 10-mongodb
 else
-	service_stop 08-mongodb	 
+	service_stop 10-mongodb
 fi
 
 liftoff

@@ -85,7 +85,8 @@ EOF
   cd /usr/src/freepbx || exit
   cp -R /etc/odbc.ini /usr/src/freepbx/installlib/files/odbc.ini
 
-  touch /etc/asterisk/{acl,agents,amd,app_skel,ari,calendar,cdr,cdr_odbc,cel,cel_odbc,cel_tds,codecs,console,dundi,dongle,hep,modules,motif,ooh323,pjsip_wizard,pjproject,prometheus,res_parking,res_snmp.conf,res_stun_monitor,smdi,statsd,unistim,xmpp}.conf
+  touch /etc/asterisk/{acl,agents,amd,app_skel,ari,calendar,cdr,cdr_odbc,cel,cel_odbc,cel_tds,codecs,console,dundi,hep,modules,motif,ooh323,pjsip_wizard,pjproject,prometheus,res_parking,res_snmp.conf,res_stun_monitor,smdi,statsd,unistim,xmpp}.conf
+
   if [ ! -f /etc/asterisk/extensions.lua ]; then
     cat <<EOF > /etc/asterisk/extensions.lua
 extensions = {
@@ -426,7 +427,6 @@ if var_true "$ENABLE_FOP" ;  then
 
 ### FOP2 installation
     mkdir -p /data/usr/local/fop2
-    mkdir -p /var/log/apache2
     cd /usr/src || exit
     silent wget http://download.fop2.com/install_fop2.sh
     chmod +x install_fop2.sh

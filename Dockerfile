@@ -133,14 +133,15 @@ RUN echo "Package: libxml2*" > /etc/apt/preferences.d/libxml2 && \
                     mpg123 \
                     odbc-mariadb \
                     php${PHP_VERSION} \
+                    php${PHP_VERSION}-bcmath \
                     php${PHP_VERSION}-curl \
                     php${PHP_VERSION}-cli \
-                    php${PHP_VERSION}-mysql \
                     php${PHP_VERSION}-gd \
-                    php${PHP_VERSION}-mbstring \
                     php${PHP_VERSION}-intl \
-                    php${PHP_VERSION}-bcmath \
                     php${PHP_VERSION}-ldap \
+                    php${PHP_VERSION}-mbstring \
+                    php${PHP_VERSION}-mysql \
+                    php${PHP_VERSION}-sqlite3 \
                     php${PHP_VERSION}-xml \
                     php${PHP_VERSION}-zip \
                     php-pear \
@@ -278,26 +279,24 @@ RUN echo "Package: libxml2*" > /etc/apt/preferences.d/libxml2 && \
     echo '%zabbix ALL=(asterisk) NOPASSWD:/usr/sbin/asterisk' >> /etc/sudoers && \
     \
 ### Setup for data persistence
-    mkdir -p /assets/config/var/lib/ /assets/config/home/ && \
+    mkdir -p /assets/config/var/lib/ /assets/config/var/run/ /assets/config/var/spool/ /assets/config/home/ && \
     mv /home/asterisk /assets/config/home/ && \
     ln -s /data/home/asterisk /home/asterisk && \
     mv /var/lib/asterisk /assets/config/var/lib/ && \
     ln -s /data/var/lib/asterisk /var/lib/asterisk && \
-    ln -s /data/usr/local/fop2 /usr/local/fop2 && \
-    mkdir -p /assets/config/var/run/ && \
     mv /var/run/asterisk /assets/config/var/run/ && \
-    mv /var/lib/mysql /assets/config/var/lib/ && \
-    mkdir -p /assets/config/var/spool && \
+    ln -s /data/var/run/asterisk /var/run/asterisk && \
+    mv /var/spool/asterisk /assets/config/var/spool/ && \
+    ln -s /data/var/spool/asterisk /var/spool/asterisk && \
+    mv /etc/asterisk /assets/config/etc/ && \
+    ln -s /data/etc/asterisk /etc/asterisk && \
     mv /var/spool/cron /assets/config/var/spool/ && \
     ln -s /data/var/spool/cron /var/spool/cron && \
-    mkdir -p /var/run/mongodb && \
-    rm -rf /var/lib/mongodb && \
+    mv /var/lib/mysql /assets/config/var/lib/ && \
+    ln -s /data/var/lib/mysql /var/lib/mysql && \
+    mv /var/lib/mongodb /assets/config/var/lib/ && \
     ln -s /data/var/lib/mongodb /var/lib/mongodb && \
-    ln -s /data/var/run/asterisk /var/run/asterisk && \
-    rm -rf /var/spool/asterisk && \
-    ln -s /data/var/spool/asterisk /var/spool/asterisk && \
-    rm -rf /etc/asterisk && \
-    ln -s /data/etc/asterisk /etc/asterisk
+    ln -s /data/var/run/mongodb /var/run/mongodb
 
 ### Networking configuration
 EXPOSE 80 443 4445 4569 5060/udp 5160/udp 5061 5161 8001 8003 8008 8009 8025 ${RTP_START}-${RTP_FINISH}/udp

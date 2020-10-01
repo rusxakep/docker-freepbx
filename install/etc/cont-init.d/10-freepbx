@@ -13,8 +13,7 @@ fi
 ### Startup
 if [ ! -f /data/.installed ]; then
   print_notice "Creating default configuration files"
-  mkdir -p /data
-  cp -R /assets/config/* /data/
+  rsync -a /assets/config/* /data --exclude var/lib/mysql --exclude var/lib/mongodb
 fi
 
 ### Container version sanity check
@@ -38,12 +37,7 @@ print_notice "Setting file permissions"
 mkdir -p /data/etc/asterisk
 mkdir -p /data/var/lib/asterisk/{bin,playback}
 mkdir -p /data/var/spool/asterisk/{backup,cache,dictate,fax,meetme,monitor,outgoing,recording,system,tmp,voicemail}
-mkdir -p /data/var/run/asterisk
-mkdir -p /data/home/asterisk
-mkdir -p /home/asterisk
-ln -sf /data/home/asterisk /home/asterisk
 chown -R asterisk. /data
-chmod +x /usr/lib/asterisk/modules/*
 
 ### Check if FreePBX installed
 if [ ! -f "$WEBROOT"/admin/index.php ]; then

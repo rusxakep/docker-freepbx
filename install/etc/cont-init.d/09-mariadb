@@ -7,11 +7,11 @@ PROCESS_NAME="mariadb"
 
 if var_true "$DB_EMBEDDED" ;  then
   silent service mysql stop
-  mkdir -p /var/lib/mysql
 
   if [ ! -d /var/lib/mysql/mysql ]; then
     print_info "New embedded database detected, setting up.."
-    cp -R /assets/config/var/lib/mysql/* /var/lib/mysql
+    mkdir -p /data/var/lib/mysql
+    cp -R /assets/config/var/lib/mysql /data/var/lib
   fi
 
   chown -R mysql. /var/lib/mysql

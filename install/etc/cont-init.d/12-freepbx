@@ -222,7 +222,15 @@ EOF
   print_notice "- certman, userman, pm2"
   check_process
   silent fwconsole ma downloadinstall certman userman pm2
+
   silent fwconsole setting SHOWLANGUAGE 1
+  silent fwconsole setting HTTPBINDADDRESS "${HTTPBINDADDRESS}"
+  silent fwconsole setting HTTPTLSBINDADDRESS "${HTTPTLSBINDADDRESS}"
+  silent fwconsole setting NODEJSBINDADDRESS "${NODEJSBINDADDRESS}"
+  silent fwconsole setting NODEJSHTTPSBINDADDRESS "${NODEJSHTTPSBINDADDRESS}"
+  silent fwconsole setting TONEZONE "${TONEZONE}"
+  silent fwconsole setting TIMEFORMAT "${TIMEFORMAT}"
+
   silent fwconsole chown
   silent fwconsole reload
   chown -RH asterisk. /home/asterisk/.npm
@@ -297,14 +305,9 @@ if var_true "$DB_EMBEDDED" ;  then
     touch /data/etc/freepbx.conf
   fi
 
-### Set IPV4 support, when no IPV6 support
-  mysql -e 'USE asterisk; UPDATE freepbx_settings SET `value` = "'"$HTTPBINDADDRESS"'" WHERE `keyword` = "HTTPBINDADDRESS"; UPDATE freepbx_settings SET `value` = "'"$HTTPTLSBINDADDRESS"'" WHERE `keyword` = "HTTPTLSBINDADDRESS"; UPDATE freepbx_settings SET `value` = "'"$NODEJSBINDADDRESS"'" WHERE `keyword` = "NODEJSBINDADDRESS"; UPDATE freepbx_settings SET `value` = "'"$NODEJSHTTPSBINDADDRESS"'" WHERE `keyword` = "NODEJSHTTPSBINDADDRESS";'
-### Set TONEZONE, TIMEFORMAT
-  mysql -e 'USE asterisk; UPDATE freepbx_settings SET `value` = "'"$TONEZONE"'" WHERE `keyword` = "TONEZONE"; UPDATE freepbx_settings SET `value` = "'"$TIMEFORMAT"'" WHERE `keyword` = "TIMEFORMAT";'
-
 ### Set RTP ports and fix a FreePBX bug with upgrades
   print_notice "Setting RTP ports - start: '${RTP_START}' finish: '${RTP_FINISH}'"
-  mysql -e 'USE asterisk; ALTER TABLE featurecodes CHANGE column helptext helptext VARCHAR(10000); INSERT INTO sipsettings (keyword, data, seq, type) VALUES ("rtpstart","'"$RTP_START"'",0,0) ON DUPLICATE KEY UPDATE data="'"$RTP_START"'";INSERT INTO sipsettings (keyword, data, seq, type) VALUES ("rtpend","'"$RTP_FINISH"'",0,0) ON DUPLICATE KEY UPDATE data="'"$RTP_FINISH"'";'
+  mysql -e 'USE asterisk; ALTER TABLE featurecodes CHANGE column helptext helptext VARCHAR(10000); INSERT INTO `kvstore_Sipsettings` ( `key`, `val`, `type`, `id` ) VALUES ( 'rtpstart', "'"$RTP_START"'", NULL, 'noid' ) ON DUPLICATE KEY UPDATE `val` = "'"$RTP_START"'", `type` = NULL; INSERT INTO `kvstore_Sipsettings` ( `key`, `val`, `type`, `id` ) VALUES ( 'rtpend', "'"$RTP_FINISH"'", NULL, 'noid' ) ON DUPLICATE KEY UPDATE `val` = "'"$RTP_FINISH"'", `type` = NULL; INSERT INTO `sipsettings` (`keyword`, `data`, `seq`, `type`) VALUES ('rtpend',"'"$RTP_FINISH"'",'0','0'); INSERT INTO `sipsettings` (`keyword`, `data`, `seq`, `type`) VALUES ('rtpstart',"'"$RTP_START"'",'0','0');'
 else
 ### Setup dynamic configuration
   print_notice "Setting configuration"

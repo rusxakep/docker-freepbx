@@ -298,9 +298,9 @@ if var_true "$DB_EMBEDDED" ;  then
   fi
 
 ### Set IPV4 support, when no IPV6 support
-  mysql -e 'USE asterisk; UPDATE freepbx_settings SET `value` = "'"$HTTPBINDADDRESS"'" WHERE `keyword` = "HTTPBINDADDRESS"); UPDATE freepbx_settings SET `value` = "'"$HTTPTLSBINDADDRESS"'" WHERE `keyword` = "HTTPTLSBINDADDRESS"); UPDATE freepbx_settings SET `value` = "'"$NODEJSBINDADDRESS"'" WHERE `keyword` = "NODEJSBINDADDRESS"); UPDATE freepbx_settings SET `value` = "'"$NODEJSHTTPSBINDADDRESS"'" WHERE `keyword` = "NODEJSHTTPSBINDADDRESS");'
+  mysql -e 'USE asterisk; UPDATE freepbx_settings SET `value` = "'"$HTTPBINDADDRESS"'" WHERE `keyword` = "HTTPBINDADDRESS"; UPDATE freepbx_settings SET `value` = "'"$HTTPTLSBINDADDRESS"'" WHERE `keyword` = "HTTPTLSBINDADDRESS"; UPDATE freepbx_settings SET `value` = "'"$NODEJSBINDADDRESS"'" WHERE `keyword` = "NODEJSBINDADDRESS"; UPDATE freepbx_settings SET `value` = "'"$NODEJSHTTPSBINDADDRESS"'" WHERE `keyword` = "NODEJSHTTPSBINDADDRESS";'
 ### Set TONEZONE, TIMEFORMAT
-  mysql -e 'USE asterisk; UPDATE freepbx_settings SET `value` = "'"$TONEZONE"'" WHERE `keyword` = "TONEZONE"); UPDATE freepbx_settings SET `value` = "'"$TIMEFORMAT"'" WHERE `keyword` = "TIMEFORMAT");'
+  mysql -e 'USE asterisk; UPDATE freepbx_settings SET `value` = "'"$TONEZONE"'" WHERE `keyword` = "TONEZONE"; UPDATE freepbx_settings SET `value` = "'"$TIMEFORMAT"'" WHERE `keyword` = "TIMEFORMAT";'
 
 ### Set RTP ports and fix a FreePBX bug with upgrades
   print_notice "Setting RTP ports - start: '${RTP_START}' finish: '${RTP_FINISH}'"

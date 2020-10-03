@@ -315,8 +315,8 @@ if var_true "$DB_EMBEDDED" ;  then
   ALTER TABLE \`featurecodes\` CHANGE column \`helptext\` \`helptext\` VARCHAR(10000);
   INSERT INTO \`kvstore_Sipsettings\`(\`key\`, \`val\`, \`type\`, \`id\`) VALUES ( 'rtpstart', '$RTP_START', NULL, 'noid' ) ON DUPLICATE KEY UPDATE \`val\` = '$RTP_START', \`type\` = NULL;
   INSERT INTO \`kvstore_Sipsettings\`(\`key\`, \`val\`, \`type\`, \`id\`) VALUES ( 'rtpend', '$RTP_FINISH', NULL, 'noid' ) ON DUPLICATE KEY UPDATE \`val\` = '$RTP_FINISH', \`type\` = NULL;
-  INSERT INTO \`sipsettings\`(\`keyword\`, \`data\`, \`seq\`, \`type\`) VALUES ('rtpend', '$RTP_FINISH','0','0') ON DUPLICATE KEY UPDATE \`data\` = '$RTP_FINISH';
   INSERT INTO \`sipsettings\`(\`keyword\`, \`data\`, \`seq\`, \`type\`) VALUES ('rtpstart', '$RTP_START','0','0') ON DUPLICATE KEY UPDATE \`data\` = '$RTP_START';
+  INSERT INTO \`sipsettings\`(\`keyword\`, \`data\`, \`seq\`, \`type\`) VALUES ('rtpend', '$RTP_FINISH','0','0') ON DUPLICATE KEY UPDATE \`data\` = '$RTP_FINISH';
   "
 else
 ### Setup dynamic configuration
@@ -360,7 +360,14 @@ option = 3
 EOF
 ### Set RTP ports and fix a FreePBX bug with upgrades
   print_notice "Setting RTP ports - start: '${RTP_START}' finish: '${RTP_FINISH}'"
-  mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -P"$DB_PORT" -e 'USE '"$DB_NAME"'; ALTER TABLE featurecodes CHANGE column helptext helptext VARCHAR(10000); INSERT INTO sipsettings (keyword, data, seq, type) VALUES ("rtpstart","'"$RTP_START"'",1,0) ON DUPLICATE KEY UPDATE data="'"$RTP_START"'";INSERT INTO sipsettings (keyword, data, seq, type) VALUES ("rtpend","'"$RTP_FINISH"'",1,0) ON DUPLICATE KEY UPDATE data="'"$RTP_FINISH"'";'
+  mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -P"$DB_PORT" -e "
+  USE '$DB_NAME';
+  ALTER TABLE \`featurecodes\` CHANGE column \`helptext\` \`helptext\` VARCHAR(10000);
+  INSERT INTO \`kvstore_Sipsettings\`(\`key\`, \`val\`, \`type\`, \`id\`) VALUES ( 'rtpstart', '$RTP_START', NULL, 'noid' ) ON DUPLICATE KEY UPDATE \`val\` = '$RTP_START', \`type\` = NULL;
+  INSERT INTO \`kvstore_Sipsettings\`(\`key\`, \`val\`, \`type\`, \`id\`) VALUES ( 'rtpend', '$RTP_FINISH', NULL, 'noid' ) ON DUPLICATE KEY UPDATE \`val\` = '$RTP_FINISH', \`type\` = NULL;
+  INSERT INTO \`sipsettings\`(\`keyword\`, \`data\`, \`seq\`, \`type\`) VALUES ('rtpstart', '$RTP_START','0','0') ON DUPLICATE KEY UPDATE \`data\` = '$RTP_START';
+  INSERT INTO \`sipsettings\`(\`keyword\`, \`data\`, \`seq\`, \`type\`) VALUES ('rtpend', '$RTP_FINISH','0','0') ON DUPLICATE KEY UPDATE \`data\` = '$RTP_FINISH';
+  "
 fi
 
 if [ ! -f /etc/asterisk/cdr_adaptive_odbc.conf ]; then
@@ -496,8 +503,6 @@ EOF
     silent openssl req -new -x509 -nodes -days 365 -config /tmp/openssl.cnf -out /certs/cert.pem -keyout /certs/key.pem
     chmod 0600 /certs/key.pem
     rm -f /tmp/openssl.cnf
-    TLS_CERT="cert.pem"
-    TLS_KEY="key.pem"
   fi
 
   silent a2enmod ssl
@@ -521,8 +526,8 @@ EOF
 
   if var_true "$ENABLE_FOP" ;  then
     echo '    Alias "'"$FOP_DIRECTORY"'" "'"$WEBROOT"'/fop2"' >>/etc/apache2/sites-enabled/000-default.conf
-    sed -i 's/ssl_certificate_file=.*/ssl_certificate_file=\/certs\/'$TLS_CERT'/g' /usr/local/fop2/fop2.cfg
-    sed -i 's/ssl_certificate_key_file=.*/ssl_certificate_key_file=\/certs\/'$TLS_KEY'/g' /usr/local/fop2/fop2.cfg
+    sed -i 's/ssl_certificate_file=.*/ssl_certificate_file=\/certs\/'"$TLS_CERT"'/g' /usr/local/fop2/fop2.cfg
+    sed -i 's/ssl_certificate_key_file=.*/ssl_certificate_key_file=\/certs\/'"$TLS_KEY"'/g' /usr/local/fop2/fop2.cfg
   fi
 
   cat >> /etc/apache2/sites-enabled/000-default.conf << EOF

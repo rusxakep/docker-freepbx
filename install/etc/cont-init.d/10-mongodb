@@ -9,7 +9,7 @@ if var_true "$ENABLE_XMPP" ;  then
 
 	if [ ! -d /data/var/lib/mongodb ]; then
     print_info "New database detected, setting up..."
-	  mkdir -p /data/var/lib/mongodb /var/log/mongodb
+	  mkdir -p /data/var/lib/mongodb /var/log/mongodb /data/var/run/mongodb
   fi
 
   chown -R mongodb. /data/var/lib/mongodb /var/log/mongodb

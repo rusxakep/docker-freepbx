@@ -257,6 +257,7 @@ RUN echo "Package: libxml2*" > /etc/apt/preferences.d/libxml2 && \
     \
 ### Cleanup
     mkdir -p /var/run/fail2ban && \
+    mkdir -p /var/run/mongodb && \
     cd / && \
     rm -rf /usr/src/* /tmp/* /etc/cron* && \
     apt-get purge -y $ASTERISK_BUILD_DEPS && \

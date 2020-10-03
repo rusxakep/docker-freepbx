@@ -307,7 +307,14 @@ if var_true "$DB_EMBEDDED" ;  then
 
 ### Set RTP ports and fix a FreePBX bug with upgrades
   print_notice "Setting RTP ports - start: '${RTP_START}' finish: '${RTP_FINISH}'"
-  mysql -e 'USE asterisk; ALTER TABLE featurecodes CHANGE column helptext helptext VARCHAR(10000); INSERT INTO `kvstore_Sipsettings` ( `key`, `val`, `type`, `id` ) VALUES ( 'rtpstart', "'"$RTP_START"'", NULL, 'noid' ) ON DUPLICATE KEY UPDATE `val` = "'"$RTP_START"'", `type` = NULL; INSERT INTO `kvstore_Sipsettings` ( `key`, `val`, `type`, `id` ) VALUES ( 'rtpend', "'"$RTP_FINISH"'", NULL, 'noid' ) ON DUPLICATE KEY UPDATE `val` = "'"$RTP_FINISH"'", `type` = NULL; INSERT INTO `sipsettings` (`keyword`, `data`, `seq`, `type`) VALUES ('rtpend',"'"$RTP_FINISH"'",'0','0'); INSERT INTO `sipsettings` (`keyword`, `data`, `seq`, `type`) VALUES ('rtpstart',"'"$RTP_START"'",'0','0');'
+  mysql -e "
+  USE asterisk;
+  ALTER TABLE \`featurecodes\` CHANGE column \`helptext\` \`helptext\` VARCHAR(10000);
+  INSERT INTO \`kvstore_Sipsettings\`(\`key\`, \`val\`, \`type\`, \`id\`) VALUES ( 'rtpstart', '$RTP_START', NULL, 'noid' ) ON DUPLICATE KEY UPDATE \`val\` = '$RTP_START', \`type\` = NULL;
+  INSERT INTO \`kvstore_Sipsettings\`(\`key\`, \`val\`, \`type\`, \`id\`) VALUES ( 'rtpend', '$RTP_FINISH', NULL, 'noid' ) ON DUPLICATE KEY UPDATE \`val\` = '$RTP_FINISH', \`type\` = NULL;
+  INSERT INTO \`sipsettings\`(\`keyword\`, \`data\`, \`seq\`, \`type\`) VALUES ('rtpend', '$RTP_FINISH','0','0') ON DUPLICATE KEY UPDATE \`data\` = '$RTP_FINISH';
+  INSERT INTO \`sipsettings\`(\`keyword\`, \`data\`, \`seq\`, \`type\`) VALUES ('rtpstart', '$RTP_START','0','0') ON DUPLICATE KEY UPDATE \`data\` = '$RTP_START';
+  "
 else
 ### Setup dynamic configuration
   print_notice "Setting configuration"

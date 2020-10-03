@@ -37,7 +37,9 @@ print_notice "Setting file permissions"
 mkdir -p /data/etc/asterisk
 mkdir -p /data/var/lib/asterisk/{bin,playback}
 mkdir -p /data/var/spool/asterisk/{backup,cache,dictate,fax,meetme,monitor,outgoing,recording,system,tmp,voicemail}
-chown -R asterisk. /data
+
+find /data/* -path /data/var/lib/mysql -prune -o -path /data/var/lib/mongodb -prune -o -exec chown asterisk. {} +
+find /data/home/asterisk -type d -exec chmod 0700 {} + && find /data/home/asterisk -type f -exec chmod 0600 {} +
 
 ### Check if FreePBX installed
 if [ ! -f "$WEBROOT"/admin/index.php ]; then
@@ -223,21 +225,14 @@ EOF
   check_process
   silent fwconsole ma downloadinstall certman userman pm2
 
-  silent fwconsole setting SHOWLANGUAGE 1
-  silent fwconsole setting HTTPBINDADDRESS "${HTTPBINDADDRESS}"
-  silent fwconsole setting HTTPTLSBINDADDRESS "${HTTPTLSBINDADDRESS}"
-  silent fwconsole setting NODEJSBINDADDRESS "${NODEJSBINDADDRESS}"
-  silent fwconsole setting NODEJSHTTPSBINDADDRESS "${NODEJSHTTPSBINDADDRESS}"
-  silent fwconsole setting TONEZONE "${TONEZONE}"
-  silent fwconsole setting TIMEFORMAT "${TIMEFORMAT}"
-
   silent fwconsole chown
   silent fwconsole reload
   chown -RH asterisk. /home/asterisk/.npm
   print_notice "- ucp"
 ### UCP fix https://community.freepbx.org/t/ucp-upgrade-error/58273
   touch /usr/bin/icu-config
-  echo "icuinfo 2>/dev/null|grep \"version\"|sed 's/.*>\(.*\)<.*/\1/g'" > /usr/bin/icu-config
+  echo "
+  icuinfo 2>/dev/null|grep \"version\"|sed 's/.*>\(.*\)<.*/\1/g'" > /usr/bin/icu-config
   chmod +x /usr/bin/icu-config
   check_process
   silent fwconsole ma downloadinstall ucp
@@ -304,6 +299,14 @@ if var_true "$DB_EMBEDDED" ;  then
     ln -sf /data/etc/freepbx.conf /etc/freepbx.conf
     touch /data/etc/freepbx.conf
   fi
+
+  silent fwconsole setting SHOWLANGUAGE 1
+  silent fwconsole setting HTTPBINDADDRESS "${HTTPBINDADDRESS}"
+  silent fwconsole setting HTTPTLSBINDADDRESS "${HTTPTLSBINDADDRESS}"
+  silent fwconsole setting NODEJSBINDADDRESS "${NODEJSBINDADDRESS}"
+  silent fwconsole setting NODEJSHTTPSBINDADDRESS "${NODEJSHTTPSBINDADDRESS}"
+  silent fwconsole setting TONEZONE "${TONEZONE}"
+  silent fwconsole setting TIMEFORMAT "${TIMEFORMAT}"
 
 ### Set RTP ports and fix a FreePBX bug with upgrades
   print_notice "Setting RTP ports - start: '${RTP_START}' finish: '${RTP_FINISH}'"

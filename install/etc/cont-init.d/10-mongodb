@@ -7,10 +7,13 @@ PROCESS_NAME="mongo"
 if var_true "$ENABLE_XMPP" ;  then
 	print_notice "Enabling MongoDB for XMPP support"
 
-	if [ ! -d /var/lib/mongodb ]; then
-    print_info "New database detected, setting up.."
+	if [ ! -d /data/var/lib/mongodb ]; then
+    print_info "New database detected, setting up..."
 	  mkdir -p /data/var/lib/mongodb /var/log/mongodb
   fi
+
+  chown -R mongodb. /data/var/lib/mongodb /var/log/mongodb
+  find /data/var/lib/mongodb -type d -exec chmod 0770 {} + && find /data/var/lib/mongodb -type f -exec chmod 0660 {} +
 
   service_start 10-mongodb
 else

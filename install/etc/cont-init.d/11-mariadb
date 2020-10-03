@@ -9,15 +9,17 @@ if var_true "$DB_EMBEDDED" ;  then
   silent service mysql stop
 
   if [ ! -d /var/lib/mysql/mysql ]; then
-    print_info "New embedded database detected, setting up.."
-    mkdir -p /data/var/lib/mysql
+    print_info "New embedded database detected, setting up..."
+    mkdir -p /data/var/lib/mysql /var/log/mysql
     cp -R /assets/config/var/lib/mysql /data/var/lib
   fi
 
-  chown -R mysql. /var/lib/mysql
+  chown -R mysql. /data/var/lib/mysql
+  find /data/var/lib/mysql -type d -exec chmod 0770 {} + && find /data/var/lib/mysql -type f -exec chmod 0660 {} +
+
   silent service mysql start
 else
-  print_info "No embedded database detected, skip.."
+  print_info "No embedded database detected, skip."
 fi
 
 liftoff

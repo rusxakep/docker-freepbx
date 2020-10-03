@@ -296,6 +296,7 @@ RUN echo "Package: libxml2*" > /etc/apt/preferences.d/libxml2 && \
     ln -s /data/var/lib/mysql /var/lib/mysql && \
     mv /var/lib/mongodb /assets/config/var/lib/ && \
     ln -s /data/var/lib/mongodb /var/lib/mongodb && \
+    mv /var/run/mongodb /assets/config/var/run/ && \
     ln -s /data/var/run/mongodb /var/run/mongodb
 
 ### Networking configuration

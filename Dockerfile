@@ -2,7 +2,7 @@ FROM rusxakep/nodejs:10-debian-latest
 LABEL maintainer="Mikhail Baykov (mike at baikov dot com)"
 
 ### Set defaults
-ENV ASTERISK_VERSION=18.0.0 \
+ENV ASTERISK_VERSION=18.0.1 \
     BCG729_VERSION=1.0.4 \
     DONGLE_VERSION=20200910 \
     G72X_CPUHOST=penryn \

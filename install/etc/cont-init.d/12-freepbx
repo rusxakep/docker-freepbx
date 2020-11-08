@@ -218,9 +218,9 @@ EOF
     silent fwconsole ma install cdr
   fi
 
-  print_notice "- backup, callrecording, conferences, dashboard, featurecodeadmin, filestore, fw_langpacks, infoservices, languages, logfiles, music, recordings, sipsettings, soundlang, voicemail"
+  print_notice "- backup, callrecording, conferences, dashboard, featurecodeadmin, filestore, fw_langpacks, infoservices, languages, logfiles, music, queues, recordings, sipsettings, soundlang, voicemail"
   check_process
-  silent fwconsole ma downloadinstall backup callrecording conferences dashboard featurecodeadmin filestore fw_langpacks infoservices languages logfiles music recordings sipsettings soundlang voicemail
+  silent fwconsole ma downloadinstall backup callrecording conferences dashboard featurecodeadmin filestore fw_langpacks infoservices languages logfiles music queues recordings sipsettings soundlang voicemail
   print_notice "- certman, userman, pm2"
   check_process
   silent fwconsole ma downloadinstall certman userman pm2

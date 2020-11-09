@@ -300,14 +300,6 @@ if var_true "$DB_EMBEDDED" ;  then
     touch /data/etc/freepbx.conf
   fi
 
-  silent fwconsole setting SHOWLANGUAGE 1
-  silent fwconsole setting HTTPBINDADDRESS "${HTTPBINDADDRESS}"
-  silent fwconsole setting HTTPTLSBINDADDRESS "${HTTPTLSBINDADDRESS}"
-  silent fwconsole setting NODEJSBINDADDRESS "${NODEJSBINDADDRESS}"
-  silent fwconsole setting NODEJSHTTPSBINDADDRESS "${NODEJSHTTPSBINDADDRESS}"
-  silent fwconsole setting TONEZONE "${TONEZONE}"
-  silent fwconsole setting TIMEFORMAT "${TIMEFORMAT}"
-
 ### Set RTP ports and fix a FreePBX bug with upgrades
   print_notice "Setting RTP ports - start: '${RTP_START}' finish: '${RTP_FINISH}'"
   mysql -e "
@@ -369,6 +361,14 @@ EOF
   INSERT INTO \`sipsettings\`(\`keyword\`, \`data\`, \`seq\`, \`type\`) VALUES ('rtpend', '$RTP_FINISH','0','0') ON DUPLICATE KEY UPDATE \`data\` = '$RTP_FINISH';
   "
 fi
+
+silent fwconsole setting SHOWLANGUAGE 1
+silent fwconsole setting HTTPBINDADDRESS "${HTTPBINDADDRESS}"
+silent fwconsole setting HTTPTLSBINDADDRESS "${HTTPTLSBINDADDRESS}"
+silent fwconsole setting NODEJSBINDADDRESS "${NODEJSBINDADDRESS}"
+silent fwconsole setting NODEJSHTTPSBINDADDRESS "${NODEJSHTTPSBINDADDRESS}"
+silent fwconsole setting TONEZONE "${TONEZONE}"
+silent fwconsole setting TIMEFORMAT "${TIMEFORMAT}"
 
 if [ ! -f /etc/asterisk/cdr_adaptive_odbc.conf ]; then
   cat <<EOF > /etc/asterisk/cdr_adaptive_odbc.conf

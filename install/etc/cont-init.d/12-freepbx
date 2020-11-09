@@ -407,6 +407,10 @@ rm -f /tmp/cron.error
 check_process
 silent fwconsole start
 
+mkdir -p /var/log/apache2
+chown -R root:adm /var/log/apache2
+chown asterisk. /run/lock/apache2
+
 ### Apache setup
 cat >> /etc/apache2/conf-available/allowoverride.conf << EOF
 <Directory $WEBROOT>
@@ -570,9 +574,6 @@ silent a2enconf remoteip.conf
 
 sed -iE 's/\(APACHE_RUN_USER=\)\(.*\)/\1asterisk/g' /etc/apache2/envvars
 sed -iE 's/\(APACHE_RUN_GROUP=\)\(.*\)/\1asterisk/g' /etc/apache2/envvars
-mkdir -p /var/log/apache2
-chown -R root:adm /var/log/apache2
-chown asterisk. /run/lock/apache2
 
 ### Disable indexes if outside of regular webroot
 if [ "$WEBROOT" != "/var/www/html" ]; then

@@ -445,7 +445,21 @@ fi
 
 if var_true "$ENABLE_FOP" ;  then
   echo '    Alias "'"$FOP_DIRECTORY"'" "/var/www/html/fop2"' >> /etc/apache2/sites-enabled/000-default.conf
+fi
 
+cat >> /etc/apache2/sites-enabled/000-default.conf << EOF
+
+  ErrorLog /var/log/apache2/error.log
+  CustomLog /var/log/apache2/access.log common
+  <Location /server-status>
+    SetHandler server-status
+    Order deny,allow
+    Deny from all
+ </Location>
+</VirtualHost>
+EOF
+
+if var_true "$ENABLE_FOP" ;  then
 ### Check to see if FOP enabled and exists (upgrade catcher)
   if [ ! -f /usr/local/fop2/fop2_server ] ; then
     print_info "Starting installation of Flash Operator Panel 2"
@@ -460,18 +474,6 @@ if var_true "$ENABLE_FOP" ;  then
     rm -rf /usr/src/*
   fi
 fi
-
-cat >> /etc/apache2/sites-enabled/000-default.conf << EOF
-
-  ErrorLog /var/log/apache2/error.log
-  CustomLog /var/log/apache2/access.log common
-  <Location /server-status>
-    SetHandler server-status
-    Order deny,allow
-    Deny from all
- </Location>
-</VirtualHost>
-EOF
 
 if [ "$VIRTUAL_PROTO" = "https" ] || var_true "$ENABLE_SSL" ;  then
   print_notice "Enabling SSL"

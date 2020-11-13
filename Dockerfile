@@ -4,7 +4,7 @@ LABEL maintainer="Mikhail Baykov (mike at baikov dot com)"
 ### Set defaults
 ENV ASTERISK_VERSION=17.8.1 \
     BCG729_VERSION=1.0.4 \
-    DONGLE_VERSION=20201108 \
+    DONGLE_VERSION=20201113 \
     G72X_CPUHOST=penryn \
     MONGODB_VERSION=4.2 \
     PHP_VERSION=5.6 \
